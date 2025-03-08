@@ -35,11 +35,11 @@ async def root() -> dict:
     return {"message": "Welcome to your Backend of Shortify."}
 
 
-@app.get("/api/v1/urls", tags=["urls"])
+@app.get("/api/v1/urls", response_model=list[URLPublic], tags=["urls"])
 async def get_urls(
     session: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100
-) -> list[URL]:
-    url = session.exec(select(URL).offset(offset).limit(limit).all())
+):
+    url = session.exec(select(URL).offset(offset).limit(limit)).all()
     return url
 
 
