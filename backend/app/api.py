@@ -11,7 +11,7 @@ SessionDep = Annotated[Session, Depends(get_session)]
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_: FastAPI):
     create_db_and_tables()
     yield
 
@@ -56,7 +56,7 @@ async def create_url(url: URL, session: SessionDep):
 
 
 # TODO wip, getting an argumenterror
-@app.patch("/api/v1/urls/{url_id}", response_model=URLPublic)
+@app.patch("/api/v1/urls/{url_id}", response_model=URLPublic, tags=["urls"])
 def update_url(url_id: int, url: URLUpdate, session: SessionDep):
     url_db = session.get(url, url_id)
     if not url_db:
@@ -66,7 +66,7 @@ def update_url(url_id: int, url: URLUpdate, session: SessionDep):
     return url
 
 
-@app.delete("/api/v1/urls/{url_id}")
+@app.delete("/api/v1/urls/{url_id}", tags=["urls"])
 async def delete_url(url_id: int, session: SessionDep):
     url = session.get(URL, url_id)
     if not url:
