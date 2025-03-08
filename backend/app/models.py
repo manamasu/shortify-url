@@ -2,6 +2,7 @@ from sqlmodel import Field, SQLModel
 
 
 class URLBase(SQLModel):
+    title: str | None = Field(default=None, index=True)
     long_url: str = Field(index=True)
 
 
@@ -16,4 +17,5 @@ class URLPublic(URLBase):
 
 
 class URLUpdate(URLBase):
+    title: str | None = None
     long_url: str | None = None
