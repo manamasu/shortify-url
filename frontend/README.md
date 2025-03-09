@@ -1,1 +1,1 @@
-# Frontend for URL-Shortener
+# Frontend for URL-Shortener (Shortify-URL)
