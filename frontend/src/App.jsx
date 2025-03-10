@@ -4,7 +4,7 @@ import URLShortener from "./components/URLShortener";
 
 function App() {
   return (
-    <div>
+    <div className=" bg-linear-to-r from-indigo-400 to-sky-400 flex flex-col min-h-screen">
       <Header />
       <URLShortener />
       <Footer />

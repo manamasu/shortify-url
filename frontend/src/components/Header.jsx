@@ -1,7 +1,7 @@
 export default function Header() {
   return (
-    <>
-      <h1>HEADER!</h1>
-    </>
+    <div className="m-4">
+      <h1 className="font-semibold">Shortify</h1>
+    </div>
   );
 }
