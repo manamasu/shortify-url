@@ -1,10 +1,10 @@
-import os
 import pytest
 from sqlmodel import SQLModel, Session, create_engine
 from sqlmodel.pool import StaticPool
-from sqlalchemy.orm import sessionmaker
-from app.api import SessionDep, app, get_session
+from app.api import app, get_session
 from fastapi.testclient import TestClient
+
+from app.models import URL
 
 
 # decorator on top of the function to tell pytest that this is a fixture function (equivalent to a FastAPI dependency).
@@ -69,3 +69,19 @@ def test_get_urls(client: TestClient):
             "short_url": "https://shortExampleURL.com",
         }
     ]
+
+
+def test_delete_url(session: Session, client: TestClient):
+    test_url = URL(
+        title="TEST-TITLE-URL",
+        long_url="https://sqlmodel.tiangolo.com/",
+    )
+    session.add(test_url)
+    session.commit()
+
+    response = client.delete(f"/api/v1/urls/{test_url.id}")
+
+    url_in_db = session.get(URL, test_url.id)
+
+    assert response.status_code == 200
+    assert url_in_db is None
