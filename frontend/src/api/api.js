@@ -9,6 +9,18 @@ export async function getURLs() {
   }
 }
 
+export async function postURL({ title, long_url }) {
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/v1/urls", {
+      title,
+      long_url,
+    });
+    return response.data;
+  } catch (err) {
+    console.log("There was an error posting a url", err);
+  }
+}
+
 export async function deleteURL(id) {
   try {
     const response = await axios.delete(
