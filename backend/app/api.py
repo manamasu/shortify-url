@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, select
+import pyshorteners
 from app.database import create_db_and_tables, get_session
 from app.models import URL, URLPublic, URLUpdate
 
@@ -47,7 +48,11 @@ async def get_urls(
 async def create_url(url: URL, session: SessionDep):
     db_url = URL.model_validate(url)
     url_dict = url.model_dump()
-    url_dict.update({"short_url": "https://shortExampleURL.com"})
+
+    # TODO Instead of pyshorteners get a ml_model or train a model myself to get unique names
+    type_tiny = pyshorteners.Shortener()
+    url_dict.update({"short_url": type_tiny.tinyurl.short(url_dict.get("long_url"))})
+
     db_url.sqlmodel_update(url_dict)
     session.add(db_url)
     session.commit()
