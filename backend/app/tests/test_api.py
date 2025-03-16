@@ -49,26 +49,18 @@ def test_get_urls(client: TestClient):
         json={"title": "SQLModel-URL", "long_url": "https://sqlmodel.tiangolo.com/"},
     )
 
-    data = response.json()
+    res_data = response.json()
 
-    assert data == data
-
-    assert data["title"] == "SQLModel-URL"
-    assert data["long_url"] == "https://sqlmodel.tiangolo.com/"
-    assert data["short_url"] == "https://shortExampleURL.com"
+    assert res_data["id"] == 1
+    assert res_data["title"] == "SQLModel-URL"
+    assert res_data["long_url"] == "https://sqlmodel.tiangolo.com/"
+    assert res_data["short_url"] is not None
 
     # Check if List of URLs are now exactly one
     response = client.get("/api/v1/urls")
     data = response.json()
 
-    assert data == [
-        {
-            "id": 1,
-            "title": "SQLModel-URL",
-            "long_url": "https://sqlmodel.tiangolo.com/",
-            "short_url": "https://shortExampleURL.com",
-        }
-    ]
+    assert data == [res_data]
 
 
 def test_delete_url(session: Session, client: TestClient):
