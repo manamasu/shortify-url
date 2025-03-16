@@ -31,8 +31,8 @@ def client_fixture(session: Session):
     app.dependency_overrides.clear()
 
 
-# the way we tell pytest what is the fixture that we want is by using the exact same name of the fixture.
-# In this case, we named it session, so the parameter has to be exactly named session for it to work.
+# the way we tell pytest what the fixture is, that we want it to be using has to have the exact name of the fixture.
+# In this case, we named it client, so the parameter has to be exactly named client for it to work.
 def test_get_urls(client: TestClient):
 
     # Check if we got no urls yet.
@@ -63,6 +63,8 @@ def test_get_urls(client: TestClient):
     assert data == [res_data]
 
 
+# the way we tell pytest what the fixture is, that we want it to be using has to have the exact name of the fixture.
+# In this case, we named it session, so the parameter has to be exactly named session for it to work.
 def test_delete_url(session: Session, client: TestClient):
     test_url = URL(
         title="TEST-TITLE-URL",
